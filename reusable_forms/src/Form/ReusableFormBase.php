@@ -31,27 +31,27 @@ abstract class ReusableFormBase extends FormBase implements ReusableFormInterfac
       $this->entity = $build_info['args'][0];
     }
 
-    $form['first_name'] = array(
+    $form['first_name'] = [
       '#type' => 'textfield',
       '#title' => $this->t('First name'),
-    );
+    ];
 
-    $form['last_name'] = array(
+    $form['last_name'] = [
       '#type' => 'textfield',
       '#title' => $this->t('Last name'),
-    );
+    ];
 
-    $form['email'] = array(
+    $form['email'] = [
       '#type' => 'email',
       '#title' => $this->t('Email'),
-    );
+    ];
 
     $form['actions']['#type'] = 'actions';
-    $form['actions']['submit'] = array(
+    $form['actions']['submit'] = [
       '#type' => 'submit',
       '#value' => $this->t('Submit'),
       '#button_type' => 'primary',
-    );
+    ];
 
     return $form;
   }

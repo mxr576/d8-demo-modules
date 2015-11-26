@@ -13,6 +13,4 @@ use Drupal\reusable_forms\ReusableFormPluginBase;
  *   form = "Drupal\reusable_forms\Form\BasicForm"
  * )
  */
-class BasicForm extends ReusableFormPluginBase {
-
-}
+class BasicForm extends ReusableFormPluginBase {}

@@ -28,10 +28,10 @@ class AdvancedForm extends ReusableFormBase {
 
     $form = parent::buildForm($form, $form_state);
 
-    $form['address'] = array(
+    $form['address'] = [
       '#type' => 'textfield',
       '#title' => $this->t('Address'),
-    );
+    ];
 
     return $form;
   }
