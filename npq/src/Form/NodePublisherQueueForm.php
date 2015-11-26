@@ -28,7 +28,6 @@ class NodePublisherQueueForm extends FormBase {
    */
   protected $queueManager;
 
-
   /**
    * {@inheritdoc}
    */
@@ -46,14 +45,14 @@ class NodePublisherQueueForm extends FormBase {
       $container->get('plugin.manager.queue_worker')
     );
   }
-  
+
   /**
    * {@inheritdoc}.
    */
   public function getFormId() {
     return 'demo_form';
   }
-  
+
   /**
    * {@inheritdoc}.
    */
@@ -61,20 +60,20 @@ class NodePublisherQueueForm extends FormBase {
     /** @var QueueInterface $queue */
     $queue = $this->queueFactory->get('node_publisher');
 
-    $form['help'] = array(
+    $form['help'] = [
       '#type' => 'markup',
-      '#markup' => $this->t('Submitting this form will process the Manual Queue which contains @number items.', array('@number' => $queue->numberOfItems())),
-    );
+      '#markup' => $this->t('Submitting this form will process the Manual Queue which contains @number items.', ['@number' => $queue->numberOfItems()]),
+    ];
     $form['actions']['#type'] = 'actions';
-    $form['actions']['submit'] = array(
+    $form['actions']['submit'] = [
       '#type' => 'submit',
       '#value' => $this->t('Process queue'),
       '#button_type' => 'primary',
-    );
-    
+    ];
+
     return $form;
   }
-  
+
   /**
    * {@inheritdoc}
    */
@@ -84,7 +83,7 @@ class NodePublisherQueueForm extends FormBase {
     /** @var QueueWorkerInterface $queue_worker */
     $queue_worker = $this->queueManager->createInstance('manual_node_publisher');
 
-    while($item = $queue->claimItem()) {
+    while ($item = $queue->claimItem()) {
       try {
         $queue_worker->processItem($item->data);
         $queue->deleteItem($item);
