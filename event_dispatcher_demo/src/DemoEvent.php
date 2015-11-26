@@ -41,4 +41,4 @@ class DemoEvent extends Event {
     $this->config = $config;
   }
 
-} 
+}

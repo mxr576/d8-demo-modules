@@ -7,11 +7,38 @@
 
 namespace Drupal\event_dispatcher_demo\Form;
 
+use Drupal\Core\Config\ConfigFactoryInterface;
+use Drupal\Core\DependencyInjection\ContainerInjectionInterface;
 use Drupal\Core\Form\ConfigFormBase;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\event_dispatcher_demo\DemoEvent;
+use Symfony\Component\DependencyInjection\ContainerInterface;
+use Symfony\Component\EventDispatcher\EventDispatcher;
 
-class DemoForm extends ConfigFormBase {
+class DemoForm extends ConfigFormBase implements ContainerInjectionInterface{
+
+  /**
+   * @var \Symfony\Component\EventDispatcher\EventDispatcher
+   */
+  protected $event_dispatcher;
+
+  /**
+   * @inheritDoc
+   */
+  public function __construct(EventDispatcher $eventDispatcher, ConfigFactoryInterface $config_factory) {
+    parent::__construct($config_factory);
+    $this->event_dispatcher = $eventDispatcher;
+  }
+
+  /**
+   * @inheritDoc
+   */
+  public static function create(ContainerInterface $container) {
+    return new static(
+      $container->get('event_dispatcher'),
+      $container->get('config.factory')
+    );
+  }
 
   /**
    * {@inheritdoc}
@@ -52,14 +79,8 @@ class DemoForm extends ConfigFormBase {
     $config->set('my_name', $form_state->getValue('my_name'))
       ->set('my_website', $form_state->getValue('my_website'));
 
-    // Get the dispatcher from the service container.
-    $dispatcher = \Drupal::service('event_dispatcher');
-
-    // Create a new event and pass the config object to it.
-    $e = new DemoEvent($config);
-
     // Dispatch the event and return it.
-    $event = $dispatcher->dispatch('demo_form.save', $e);
+    $event = $this->event_dispatcher->dispatch('demo_form.save', new DemoEvent($config));
 
     // Get all the data from the altered config object.
     $newData = $event->getConfig()->get();
