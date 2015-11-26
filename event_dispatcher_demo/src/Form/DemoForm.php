@@ -8,14 +8,13 @@
 namespace Drupal\event_dispatcher_demo\Form;
 
 use Drupal\Core\Config\ConfigFactoryInterface;
-use Drupal\Core\DependencyInjection\ContainerInjectionInterface;
 use Drupal\Core\Form\ConfigFormBase;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\event_dispatcher_demo\DemoEvent;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\EventDispatcher\EventDispatcher;
 
-class DemoForm extends ConfigFormBase implements ContainerInjectionInterface{
+class DemoForm extends ConfigFormBase {
 
   /**
    * @var \Symfony\Component\EventDispatcher\EventDispatcher
