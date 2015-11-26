@@ -2,7 +2,6 @@
 
 namespace Drupal\demo\Plugin\DsField;
 
-use Drupal\Component\Utility\SafeMarkup;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Url;
 use Drupal\ds\Plugin\DsField\DsFieldBase;
@@ -33,8 +32,8 @@ class VocabularyTerms extends DsFieldBase {
 
     $query = \Drupal::entityQuery('taxonomy_term')
       ->condition('vid', $config['vocabulary']);
-
     $tids = $query->execute();
+
     if (!$tids) {
       return;
     }
@@ -44,10 +43,10 @@ class VocabularyTerms extends DsFieldBase {
       return;
     }
 
-    return array(
+    return [
       '#theme' => 'item_list',
       '#items' => $this->buildTermList($terms),
-    );
+    ];
   }
 
   /**
@@ -59,7 +58,7 @@ class VocabularyTerms extends DsFieldBase {
   private function buildTermList(array $terms) {
     $config = $this->getConfiguration();
     $formatter = isset($config['field']['formatter']) && $config['field']['formatter'] ? $config['field']['formatter'] : 'unlinked';
-    $items = array();
+    $items = [];
     foreach ($terms as $term) {
       $items[] = $this->buildTermListItem($term, $formatter);
     }
@@ -75,11 +74,11 @@ class VocabularyTerms extends DsFieldBase {
    */
   private function buildTermListItem(Term $term, $formatter) {
     if ($formatter === 'linked') {
-      $link_url = Url::fromRoute('entity.taxonomy_term.canonical', array('taxonomy_term' => $term->id()));
+      $link_url = Url::fromRoute('entity.taxonomy_term.canonical', ['taxonomy_term' => $term->id()]);
       return \Drupal::l($term->label(), $link_url);
     }
 
-    return SafeMarkup::checkPlain($term->label());
+    return $term->label();
   }
 
   /**
@@ -90,16 +89,16 @@ class VocabularyTerms extends DsFieldBase {
 
     $names = taxonomy_vocabulary_get_names();
     $vocabularies = Vocabulary::loadMultiple($names); // Should use dependency injection rather.
-    $options = array();
+    $options = [];
     foreach ($vocabularies as $vocabulary) {
       $options[$vocabulary->id()] = $vocabulary->label();
     }
-    $settings['vocabulary'] = array(
+    $settings['vocabulary'] = [
       '#type' => 'select',
       '#title' => t('Vocabulary'),
       '#default_value' => $config['vocabulary'],
       '#options' => $options,
-    );
+    ];
 
     return $settings;
   }
@@ -109,11 +108,11 @@ class VocabularyTerms extends DsFieldBase {
    */
   public function settingsSummary($settings) {
     $config = $this->getConfiguration();
-    $no_selection = array('No vocabulary selected.');
+    $no_selection = [t('No vocabulary selected.')];
 
     if (isset($config['vocabulary']) && $config['vocabulary']) {
       $vocabulary = Vocabulary::load($config['vocabulary']);
-      return $vocabulary ? array('Vocabulary: ' . $vocabulary->label()) : $no_selection;
+      return $vocabulary ? [t('Vocabulary: @label', ['@label' => $vocabulary->label()])] : $no_selection;
     }
 
     return $no_selection;
@@ -124,9 +123,9 @@ class VocabularyTerms extends DsFieldBase {
    */
   public function defaultConfiguration() {
 
-    $configuration = array(
+    $configuration = [
       'vocabulary' => 'tags',
-    );
+    ];
 
     return $configuration;
   }
@@ -135,7 +134,7 @@ class VocabularyTerms extends DsFieldBase {
    * {@inheritdoc}
    */
   public function formatters() {
-    return array('linked' => 'Linked', 'unlinked' => 'Unlinked');
+    return ['linked' => t('Linked'), 'unlinked' => t('Unlinked')];
   }
 
 }

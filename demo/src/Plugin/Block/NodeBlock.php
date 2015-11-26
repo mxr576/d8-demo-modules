@@ -19,7 +19,6 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
  *   deriver = "Drupal\demo\Plugin\Derivative\NodeBlock"
  * )
  */
-
 class NodeBlock extends BlockBase implements ContainerFactoryPluginInterface {
 
   /**
@@ -58,7 +57,7 @@ class NodeBlock extends BlockBase implements ContainerFactoryPluginInterface {
       $container->get('entity.manager')
     );
   }
-  
+
   /**
    * {@inheritdoc}
    */
@@ -69,7 +68,7 @@ class NodeBlock extends BlockBase implements ContainerFactoryPluginInterface {
     $build = $this->viewBuilder->view($this->node, 'full');
     return $build;
   }
-  
+
   /**
    * {@inheritdoc}
    */

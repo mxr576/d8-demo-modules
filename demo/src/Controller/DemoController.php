@@ -14,16 +14,16 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
  * DemoController.
  */
 class DemoController extends ControllerBase {
-  
+
   protected $demoService;
-  
+
   /**
    * Class constructor.
    */
   public function __construct($demoService) {
     $this->demoService = $demoService;
   }
-  
+
   /**
    * {@inheritdoc}
    */
@@ -32,13 +32,13 @@ class DemoController extends ControllerBase {
       $container->get('demo.demo_service')
     );
   }
-  
+
   /**
    * Generates an example page.
    */
   public function demo() {
-    return array(
-      '#markup' => t('Hello @value!', array('@value' => $this->demoService->getDemoValue())),
-    );
+    return [
+      '#markup' => $this->t('Hello @value!', ['@value' => $this->demoService->getDemoValue()]),
+    ];
   }
 }
