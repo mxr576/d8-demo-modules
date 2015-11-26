@@ -10,7 +10,7 @@ namespace Drupal\event_dispatcher_demo;
 use Symfony\Component\EventDispatcher\Event;
 use Drupal\Core\Config\Config;
 
-class DemoEvent extends Event {
+class EventDispatcherDemoEvent extends Event {
 
   protected $config;
 

@@ -10,7 +10,8 @@ namespace Drupal\event_dispatcher_demo\Form;
 use Drupal\Core\Config\ConfigFactoryInterface;
 use Drupal\Core\Form\ConfigFormBase;
 use Drupal\Core\Form\FormStateInterface;
-use Drupal\event_dispatcher_demo\DemoEvent;
+use Drupal\event_dispatcher_demo\EventDispatcherDemoEvent;
+use Drupal\event_dispatcher_demo\EventDispatcherDemoEvents;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\EventDispatcher\EventDispatcher;
 
@@ -79,7 +80,7 @@ class DemoForm extends ConfigFormBase {
       ->set('my_website', $form_state->getValue('my_website'));
 
     // Dispatch the event and return it.
-    $event = $this->event_dispatcher->dispatch('demo_form.save', new DemoEvent($config));
+    $event = $this->event_dispatcher->dispatch(EventDispatcherDemoEvents::SAVE, new EventDispatcherDemoEvent($config));
 
     // Get all the data from the altered config object.
     $newData = $event->getConfig()->get();

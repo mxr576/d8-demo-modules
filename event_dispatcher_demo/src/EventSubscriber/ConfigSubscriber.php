@@ -7,7 +7,8 @@
 
 namespace Drupal\event_dispatcher_demo\EventSubscriber;
 
-use Drupal\event_dispatcher_demo\DemoEvent;
+use Drupal\event_dispatcher_demo\EventDispatcherDemoEvent;
+use Drupal\event_dispatcher_demo\EventDispatcherDemoEvents;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
 class ConfigSubscriber implements EventSubscriberInterface {
@@ -16,14 +17,14 @@ class ConfigSubscriber implements EventSubscriberInterface {
    * @return mixed
    */
   static function getSubscribedEvents() {
-    $events['demo_form.save'][] = ['onConfigSave', 0];
+    $events[EventDispatcherDemoEvents::SAVE][] = ['onConfigSave', 0];
     return $events;
   }
 
   /**
-   * @param DemoEvent $event
+   * @param \Drupal\event_dispatcher_demo\EventDispatcherDemoEvent $event
    */
-  public function onConfigSave($event) {
+  public function onConfigSave(EventDispatcherDemoEvent $event) {
     // Get the config object from the event.
     $config = $event->getConfig();
 
